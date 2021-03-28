@@ -1,0 +1,81 @@
+Input:
+	Dòng 1: N	<số bộ test>
+	N Dòng tiếp theo, mỗi dòng gồm: y, m, d, h, min, s, s_add  <biểu thị mốc thời gian>
+		Trong đó: y: năm
+			  m: tháng
+			  d: ngày
+			  h: giờ
+			  min: phút
+			  s: giây
+			  s_add: số giây cộng thêm vào mốc thời gian 
+Output:
+	Mốc thời gian sau khi cộng thêm s_add giây
+	Output được in ra theo định dạng: yyyy:mm:dd:hh:minmin:ss
+Lưu ý: 
+	nếu đơn vị hiển thị có 1 chữ số thì phải thêm 0 ở trước (đảm bảo định dạng yyyy:mm:dd:hh:minmin:ss)
+
+Ví dụ: 
+	Input:
+		2
+		2020 2 28 23 59 59 172800
+		2019 12 31 23 59 59 172801	
+
+	Output:
+		2020:03:01:23:59:59
+		2020:01:03:00:00:00	
+
+	
+
+
+
+
+
+
+
+#include<stdio.h>
+
+int getDay(int year, int month)
+{
+	if (month == 1|| month == 3|| month == 5 || month == 7 || month == 8 || month == 10 || month == 12) return 31;
+	if (month == 4|| month == 6|| month == 9 || month == 11) return 30;
+	if (year % 400 == 0) return 29;
+	else if(year %100 ==0) return 28;
+	else if (year %4 == 0) return 29;
+}
+
+int main()
+{
+	int num_test, y, m, d, h, min, s, s_add;
+	scanf("%d", &num_test);
+	for (int i = 0; i < num_test; i++)
+	{
+		scanf("%d%d%d%d%d%d%d", &y, &m, &d, &h, &min, &s, &s_add);
+		s += s_add;
+		min += s/60;
+		h += min/60;
+		d += h/24;
+		int temp = d;
+		s %= 60;
+		min %= 60;
+		h %= 24;
+		int dayMax = getDay(y,m);
+		if (d > dayMax)
+		{
+			m += d/dayMax;
+			d %= dayMax;
+		}
+		if (m > 12)
+        {
+            y += m/12;
+            m %= 12;
+        }
+		printf("%d",y);
+		printf((m>=10)?":%d":":0%d",m);
+		printf((d>=10)?":%d":":0%d",d);
+		printf((h>=10)?":%d":":0%d",h);
+		printf((min>=10)?":%d":":0%d",min);
+		printf((s>=10)?":%d":":0%d",s);
+		printf("\n");
+	}
+	return 0;
+}
