@@ -1,5 +1,7 @@
 #include <stdio.h>
+
 int n, h, min, s;
+
 int main() {
 
     do{
